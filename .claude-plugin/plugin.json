@@ -1,0 +1,10 @@
+{
+  "name": "career-log-skill",
+  "description": "将日常开发中的问题解决过程持续沉淀为结构化职业资产，自动生成简历条目",
+  "version": "0.1.0",
+  "author": {
+    "name": "hongmuyu"
+  },
+  "license": "MIT",
+  "keywords": ["career", "resume", "developer-log", "problem-solving"]
+}
