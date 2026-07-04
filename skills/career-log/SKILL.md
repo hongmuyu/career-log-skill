@@ -14,23 +14,35 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]
 - **全自动生成，用户只管审**：所有字段尽量从上下文自动推断，用户 review 后确认
 - **细致不笼统**：重点放在"遇到了什么问题、怎么定位、怎么解决、结果如何"
 
+## 重要：路径处理
+
+在 Claude Code 环境中，`$HOME` 和 `~` 可能指向 `.claude-zhipu-home` 而非用户的真实家目录。
+**所有涉及家目录的操作必须先解析真实家目录：**
+
+```bash
+REAL_HOME=$(getent passwd "$(whoami)" | cut -d: -f6)
+```
+
+之后所有路径操作使用 `$REAL_HOME` 代替 `~`。配置文件 `config.yaml` 中的路径也必须存储为绝对路径。
+
 ## 工作流程
 
 ### 第一步：加载配置
 
-1. 读取配置文件 `~/.career/config.yaml`，获取 `log_dir`、`resume_path`、`default_project`
-2. 如果配置文件不存在，引导用户创建：
+1. 先解析真实家目录：`REAL_HOME=$(getent passwd "$(whoami)" | cut -d: -f6)`
+2. 读取配置文件 `$REAL_HOME/.career/config.yaml`，获取 `log_dir`、`resume_path`、`default_project`
+3. 如果配置文件不存在，引导用户创建：
 
 ```
 首次使用 career-log！请配置以下信息：
-1. 日志存放目录（如 ~/career/log）：
-2. 简历文件路径（如 ~/career/resume.md）：
+1. 日志存放目录（如 $REAL_HOME/career/log）：
+2. 简历文件路径（如 $REAL_HOME/career/resume.md）：
 3. 默认项目名（可选，留空则自动推断）：
 ```
 
-使用用户输入的值创建 `~/.career/config.yaml` 和相关目录。
+使用用户输入的值创建 `$REAL_HOME/.career/config.yaml` 和相关目录。配置文件中的路径必须存储为绝对路径（如 `/home/abc/career/log`），不使用 `~`。
 
-3. 确保日志目录和简历文件所在目录存在，不存在则创建
+4. 确保日志目录和简历文件所在目录存在，不存在则创建
 
 ### 第二步：确定项目名
 
@@ -128,4 +140,4 @@ role: 后端开发
 - 简历条目是精炼版，problem → solution → result 一句话串联
 - 不编造用户未提及的内容，推断不了的字段留空让用户补充
 - 简历文件如不存在，自动创建并写入
-- 所有路径支持 `~` 展开
+- 所有路径使用绝对路径，不依赖 `~` 展开（Claude Code 环境中 `~` 可能指向错误目录）

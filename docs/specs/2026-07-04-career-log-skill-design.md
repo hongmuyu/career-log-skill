@@ -107,12 +107,13 @@
 
 ## 配置
 
-配置文件：`~/.career/config.yaml`
+配置文件：`$HOME/.career/config.yaml`（注意：在 Claude Code 环境中需通过 `getent passwd "$(whoami)" | cut -d: -f6` 解析真实家目录，不能依赖 `$HOME` 或 `~`）
 
 ```yaml
-log_dir: "~/career/log"           # YAML 日志存放目录
-resume_path: "~/career/resume.md" # 简历文件路径
-default_project: ""               # 可选，默认项目名（不填则从 git 仓库名推断）
+# 路径请使用绝对路径，避免使用 ~（Claude Code 环境中 ~ 可能指向 .claude-zhipu-home 而非真实家目录）
+log_dir: "/home/yourname/career/log"           # YAML 日志存放目录
+resume_path: "/home/yourname/career/resume.md" # 简历文件路径
+default_project: ""                            # 可选，默认项目名（不填则从 git 仓库名推断）
 ```
 
 - 首次调用 skill 时如未配置，引导用户设置
@@ -120,8 +121,8 @@ default_project: ""               # 可选，默认项目名（不填则从 git 
 
 ## 存储设计
 
-- **日志目录**：用户指定（如 `~/career/log/`），下按项目分文件（`A2A-Gateway.yaml`、`chat-app.yaml`...）
-- **简历文件**：用户指定路径（如 `~/career/resume.md`）
+- **日志目录**：用户指定绝对路径（如 `/home/yourname/career/log/`），下按项目分文件（`A2A-Gateway.yaml`、`chat-app.yaml`...）
+- **简历文件**：用户指定绝对路径（如 `/home/yourname/career/resume.md`）
 - 存储与项目目录完全解耦，所有职业资产集中管理
 
 ## 开源项目定位

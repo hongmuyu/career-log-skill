@@ -22,6 +22,7 @@ career-log 在你解决问题的当下就记录下来——对话上下文里有
 
 ```bash
 # 克隆到 Claude Code skills 目录
+# 注意：在 Claude Code 环境中，~ 可能指向 .claude-zhipu-home，请确认实际路径
 git clone https://github.com/hongmuyu/career-log-skill.git ~/.claude/skills/career-log-skill
 ```
 
@@ -33,9 +34,10 @@ git clone https://github.com/hongmuyu/career-log-skill.git ~/.claude/skills/care
 
 ```yaml
 # ~/.career/config.yaml
-log_dir: "~/career/log"           # YAML 日志存放目录
-resume_path: "~/career/resume.md" # 简历文件路径
-default_project: ""               # 可选，默认项目名
+# 注意：路径请使用绝对路径，避免使用 ~（Claude Code 环境中 ~ 可能指向错误目录）
+log_dir: "/home/yourname/career/log"           # YAML 日志存放目录
+resume_path: "/home/yourname/career/resume.md" # 简历文件路径
+default_project: ""                            # 可选，默认项目名
 ```
 
 也可以手动创建此文件。
