@@ -44,8 +44,8 @@ default_project: ""               # 可选，默认项目名
 
 ```
 # 在任何项目目录下
-/career-log              # 自动推断项目名
-/career-log A2A-Gateway  # 指定项目名
+/career-log-skill:career-log              # 自动推断项目名
+/career-log-skill:career-log A2A-Gateway  # 指定项目名
 ```
 
 ## 生成的 YAML 日志示例
